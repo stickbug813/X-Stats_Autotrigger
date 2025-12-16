@@ -1,0 +1,111 @@
+# ================================
+# XSAT Auto-Trigger v1.0
+# ================================
+
+# Path to live-updating stats XML
+stats_xml: ""
+
+# ----------------
+# Ross XPression
+# ----------------
+xpression:
+  host: "localhost"
+  port: 7788 # Default XPression rosstalk port 7788
+
+# ----------------
+# General Behavior
+# ----------------
+logging_level: "INFO"
+
+# Debounce to avoid mid-write XML truncation
+debounce_ms: 500
+
+# Global rate limit (0 = disabled)
+# Example: 150 = max ~6–7 triggers/sec
+min_trigger_interval_ms: 3500
+
+# ----------------
+# Player Graphics
+# ----------------
+player:
+  # How long a player stat stays on-air
+  auto_takeoff_seconds: 6
+
+  # FOCUS behavior:
+  #   on_take     → SEQI then FOCUS
+  #   before_take → FOCUS then SEQI
+  #   off         → no FOCUS command
+  focus_mode: "on_take"
+
+# ----------------
+# Team Burst Graphics
+# ----------------
+team_bursts:
+  enabled: true
+
+  # Extra delay AFTER player auto_takeoff
+  # Total wait = player.auto_takeoff_seconds + this value
+  delay_after_player_seconds: 1.5
+
+  # How long the team burst graphic stays on-air
+  auto_takeoff_seconds: 6
+
+  # Thresholds per stat type
+  thresholds:
+    "3PTR": 3
+    "2PTR": 3
+    "FT":   6
+
+  # TakeIDs for team momentum graphics
+  take_ids:
+    home:
+      "3PTR": 530
+      "2PTR": 520
+      "FT":   510
+    away:
+      "3PTR": 630
+      "2PTR": 620
+      "FT":   610
+
+# ----------------
+# Stat Type Handling
+# ----------------
+types:
+
+  # Normalize feed tokens → canonical stat types
+  aliases:
+    # 3 pointers
+    "3PT": "3PTR"
+    "3PTJ": "3PTR"
+    "THREE": "3PTR"
+
+    # 2 pointers
+    "2PT": "2PTR"
+    "JUMPER": "2PTR"
+    "LAYUP": "2PTR"
+    "DUNK": "2PTR"
+    "TIPIN": "2PTR"
+    "TIP-IN": "2PTR"
+
+    # Free throws
+    "FTM": "FT"
+    "FT_MADE": "FT"
+    "FREE THROW": "FT"
+
+  # ----------------------------
+  # Player Graphic Toggles
+  # ----------------------------
+  # Controls which stats show PLAYER graphics
+  player_enabled:
+    "3PTR": true
+    "2PTR": true
+    "FT":   false
+
+  # ----------------------------
+  # Team Burst Toggles
+  # ----------------------------
+  # Controls which stats contribute to TEAM bursts
+  bursts_enabled:
+    "3PTR": true
+    "2PTR": true
+    "FT": true  
